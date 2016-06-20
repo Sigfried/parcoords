@@ -26,6 +26,9 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'json-loader',
       },
+      { test: /.(png|woff(2)?|eot|ttf|svg)(\?[a-z0-9=\.]+)?$/, 
+        loader: 'url-loader?limit=100000' 
+      }
     ],
   },
   plugins: [
