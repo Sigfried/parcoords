@@ -133,8 +133,12 @@ function dataSetupAge(selectedData) {
   let pcrecs = _.supergroup(prepd.filter(d=>typeof d.age !== "undefined"), ['age','label'])
     .map(age=>{
       let pcrec={age:age.valueOf()}; 
+      let patcnt = age.lookup('patient_count').records.length;
       age.children.forEach(lbl=>{
         pcrec[lbl]=lbl.records.length
+        if (lbl.toString() !== 'patient_count') {
+          pcrec[lbl]=Math.round(lbl.records.length / patcnt);
+        }
       });
       return pcrec
     });
@@ -161,12 +165,12 @@ class App extends React.Component {
             &nbsp;
             <input type="radio" name="lineby" 
               value='month' checked={LINEBY === 'month'} 
-              onChange={this.onLinebyChanged.bind(this)} /> month
+              onChange={this.onLinebyChanged.bind(this)} /> month (events per month)
             &nbsp;
             &nbsp;
             <input type="radio" name="lineby" 
               value='age' checked={LINEBY === 'age'} 
-              onChange={this.onLinebyChanged.bind(this)} /> age
+              onChange={this.onLinebyChanged.bind(this)} /> age (events per age / patient count)
           </Row>
           <Row>
             <Col md={12}>
