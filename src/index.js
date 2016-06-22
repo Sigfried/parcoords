@@ -200,7 +200,7 @@ class App extends React.Component {
     );
   }
   onLinebyChanged(e) {
-    window.location.href = "http://" + window.location.host + window.location.path + '?lineby=' + e.currentTarget.value;
+    window.location.href = "http://" + window.location.host + window.location.pathname + '?lineby=' + e.currentTarget.value;
   }
   componentDidMount() {
     FILELABELS.forEach(label => {
