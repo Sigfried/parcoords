@@ -30,7 +30,8 @@ let FILELABELS = [
                  //'device_exposure', 'death', 
               ];
 //const LINEBY = 'month';
-const LINEBY = 'age';
+let match = window.location.search.match(/.*(month|age).*/)
+const LINEBY = match && match[1] || 'month';
 if (LINEBY === 'age') {
   FILELABELS.unshift('person');
 }
@@ -156,6 +157,18 @@ class App extends React.Component {
             <h3>DQ Viz, Files explorer with parallel coordinates</h3>
           </Row>
           <Row>
+            Line by:
+            &nbsp;
+            <input type="radio" name="lineby" 
+              value='month' checked={LINEBY === 'month'} 
+              onChange={this.onLinebyChanged.bind(this)} /> month
+            &nbsp;
+            &nbsp;
+            <input type="radio" name="lineby" 
+              value='age' checked={LINEBY === 'age'} 
+              onChange={this.onLinebyChanged.bind(this)} /> age
+          </Row>
+          <Row>
             <Col md={12}>
               <ParCoords 
                 data={this.state.processedData}
@@ -185,6 +198,9 @@ class App extends React.Component {
         </Col>
       </Row>
     );
+  }
+  onLinebyChanged(e) {
+    window.location.href = "http://" + window.location.host + '?lineby=' + e.currentTarget.value;
   }
   componentDidMount() {
     FILELABELS.forEach(label => {
